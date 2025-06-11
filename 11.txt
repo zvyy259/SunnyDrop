@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Connexion Web3</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+</head>
+<body>
+  <button id="connectButton">Connecter Wallet</button>
+  <p id="status">Statut : Non connecté</p>
+
+  <script>
+    const connectButton = document.getElementById('connectButton');
+    const statusText = document.getElementById('status');
+
+    connectButton.onclick = async () => {
+      if (window.ethereum) {
+        try {
+          // Demande de connexion à Metamask
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+          const web3 = new Web3(window.ethereum);
+          const account = accounts[0];
+
+          statusText.innerText = `Connecté à : ${account}`;
+          console.log("Web3 connecté", web3);
+
+          // Tu peux maintenant interagir avec la blockchain (lecture, écriture via contrat, etc.)
+
+        } catch (err) {
+          console.error("Connexion refusée", err);
+          statusText.innerText = "Erreur : Connexion refusée";
+        }
+      } else {
+        alert("Ethereum non détecté. Installe Metamask !");
+        statusText.innerText = "Erreur : Wallet non détecté";
+      }
+    };
+  </script>
+</body>
+</html>
